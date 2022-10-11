@@ -2,11 +2,13 @@
 
 namespace Unit02
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Director georgeLucas = new Director();
+            georgeLucas.StartGame();
+            return 0;
         }
     }
 }
