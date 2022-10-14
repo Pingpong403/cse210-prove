@@ -4,9 +4,11 @@ namespace Unit03
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Director martinScorcese = new Director();
+            martinScorcese.StartGame();
+            return 0;
         }
     }
 }
