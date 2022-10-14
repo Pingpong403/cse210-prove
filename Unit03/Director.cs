@@ -72,7 +72,8 @@ namespace Unit03
         }
 
         /// <summary>
-        /// If game over, display dead jumper and end game.
+        /// If jumper dies, display dead jumper and end game.
+        /// If player wins, congratulate them and end game.
         /// </summary>
         private void DoOutputs()
         {
