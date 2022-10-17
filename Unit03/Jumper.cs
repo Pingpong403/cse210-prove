@@ -7,7 +7,7 @@ namespace Unit03
     /// <para>Constructs a new instance of Jumper</para>
     /// <para>
     /// The purpose of Jumper is to keep track of its current form and
-    /// manipulate itself.
+    /// change itself.
     /// </para>
     /// </summary>
     public class Jumper
