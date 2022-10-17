@@ -29,6 +29,7 @@ namespace Unit03
         /// </summary>
         public void StartGame()
         {
+            // Console.Clear();
             while (_isPlaying)
             {
                 GetInputs();
@@ -49,6 +50,7 @@ namespace Unit03
 
             _guess = _terminalService.ReadText("Guess a letter [a-z]: ");
             _guess = _guess.ToUpper();
+            // Console.Clear();
         }
 
         /// <summary>
@@ -85,6 +87,8 @@ namespace Unit03
             }
             if (_word.won())
             {
+                Console.WriteLine();
+                _terminalService.WriteText(_jumper.getWinner());
                 Console.WriteLine("\nWow! You got it!");
                 _isPlaying = false;
             }

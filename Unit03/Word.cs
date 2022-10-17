@@ -4,10 +4,11 @@ using System.Collections.Generic;
 namespace Unit03
 {
     /// <summary>
-    /// Creates a new instance of Word
-    /// 
-    /// The responsobility of a Word is to know what word it holds and
-    /// also hold the correct hint.
+    /// <para>Creates a new instance of Word</para>
+    /// <para>
+    /// The responsibility of a Word is to know what word it holds, hold
+    /// the correct hint, and update the hint correctly.
+    /// </para>
     /// </summary>
     public class Word
     {
@@ -15,9 +16,13 @@ namespace Unit03
         private List<string> _hint;
         private int _wordLength;
 
+        /// <summary>
+        /// Constructs a new instance of Word
+        /// </summary>
         public Word()
         {
-            List<string> words = new List<string>{
+            List<string> words = new List<string>
+            {
                 "H A M B U R G E R",
                 "M U S T A R D",
                 "K E T C H U P",
@@ -25,6 +30,7 @@ namespace Unit03
                 "P I C K L E S",
                 "L E T T U C E",
                 "T O M A T O",
+                "O N I O N S",
                 "B U N",
                 "S E S A M E",
                 "G R I L L",

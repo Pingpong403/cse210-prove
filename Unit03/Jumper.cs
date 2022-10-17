@@ -4,19 +4,24 @@ using System.Collections.Generic;
 namespace Unit03
 {
     /// <summary>
-    /// Constructs a new instance of Jumper
-    /// 
+    /// <para>Constructs a new instance of Jumper</para>
+    /// <para>
     /// The purpose of Jumper is to keep track of its current form and
     /// manipulate itself.
+    /// </para>
     /// </summary>
     public class Jumper
     {
         private List<string> _jumper;
         public bool isDead;
 
+        /// <summary>
+        /// Constructs a new instance of Jumper
+        /// </summary>
         public Jumper()
         {
-            _jumper = new List<string>{
+            _jumper = new List<string>
+            {
                 "  ___  ",
                 " /___\\ ",
                 " \\   / ",
@@ -65,6 +70,15 @@ namespace Unit03
         {
             isDead = true;
             _jumper[0] = "   x   ";
+        }
+
+        /// <summary>
+        /// Returns a winning jumper!
+        /// </summary>
+        public string getWinner()
+        {
+            string winner = " \\ O / \n   |   \n__/_\\__";
+            return winner;
         }
     }
 }
