@@ -31,11 +31,29 @@ namespace Unit03
                 "L E T T U C E",
                 "T O M A T O",
                 "O N I O N S",
-                "B U N",
+                "B U N S",
                 "S E S A M E",
                 "G R I L L",
                 "A V O C A D O",
-                "C H E E S E"
+                "C H E E S E",
+                "T H O U S A N D I S L A N D",
+                "C O R N",
+                "B A R B E Q U E",
+                "F R I E S",
+                "C O C A C O L A",
+                "S P R I T E",
+                "H O T D O G",
+                "C O O L E R",
+                "L A W N C H A I R",
+                "F O O T B A L L",
+                "B A S E B A L L",
+                "F R I S B E E",
+                "S U N S C R E E N",
+                "W A T E R M E L O N",
+                "K O O L A I D",
+                "R E L I S H",
+                "S L I P N S L I D E",
+                "T O N G S"
             };
             Random rnd = new Random();
             int randomWordIndex = rnd.Next(words.Count);
@@ -64,6 +82,8 @@ namespace Unit03
         /// <summary>
         /// Checks if the given letter in is the word.
         /// </summary>
+        /// <param name="letter">The letter to check.</param>
+        /// <returns>Whether the letter was in the word.</returns>
         public bool letterInWord(string letter)
         {
             bool inWord = false;
@@ -81,6 +101,7 @@ namespace Unit03
         /// Puts all instances of the given letter in their correct spot 
         /// in the hint.
         /// </summary>
+        /// <param name="letter">The letter to reveal.</param>
         public void revealLetter(string letter)
         {
             for (int i = 0; i < _wordLength; i++)
