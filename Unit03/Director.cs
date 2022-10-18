@@ -46,6 +46,7 @@ namespace Unit03
             _terminalService.WriteText(_word.getHint());
             Console.WriteLine();
             _terminalService.WriteText(_jumper.getJumper());
+            Console.WriteLine();
             _terminalService.WriteText("^^^^^^^");
 
             _guess = _terminalService.ReadText("Guess a letter [a-z]: ");

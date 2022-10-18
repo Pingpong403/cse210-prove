@@ -22,13 +22,13 @@ namespace Unit03
         {
             _jumper = new List<string>
             {
-                "  ___  ",
-                " /___\\ ",
-                " \\   / ",
-                "  \\ /  ",
-                "   O   ",
-                "  /|\\  ",
-                "  / \\  "
+                @"  ___  ",
+                @" /___\ ",
+                @" \   / ",
+                @"  \ /  ",
+                @"   O   ",
+                @"  /|\  ",
+                @"  / \  "
             };
             isDead = false;
         }
@@ -36,13 +36,10 @@ namespace Unit03
         /// <summary>
         /// Returns the jumper.
         /// </summary>
+        /// <returns>Current jumper as a string.</returns>
         public string getJumper()
         {
-            string stringJumper = "";
-            foreach (string jumperLine in _jumper)
-            {
-                stringJumper += $"{jumperLine}\n";
-            }
+            string stringJumper = String.Join("\n", _jumper);
             return stringJumper;
         }
 
@@ -57,6 +54,7 @@ namespace Unit03
         /// <summary>
         /// Checks the jumper's length.
         /// </summary>
+        /// <returns>Current length of the jumper.</returns>
         public int jumperLength()
         {
             return _jumper.Count;
@@ -75,10 +73,10 @@ namespace Unit03
         /// <summary>
         /// Returns a winning jumper!
         /// </summary>
+        /// <returns>Winning jumper as a string.</returns>
         public string getWinner()
         {
-            string winner = " \\ O / \n   |   \n__/_\\__";
-            return winner;
+            return " \\ O / \n   |   \n__/_\\__";
         }
     }
 }

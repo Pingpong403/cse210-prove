@@ -20,17 +20,6 @@ namespace Unit03
         }
 
         /// <summary>
-        /// Gets numerical input from the terminal. Directs the user with the given prompt.
-        /// </summary>
-        /// <param name="prompt">The given prompt.</param>
-        /// <returns>Inputted number.</returns>
-        public int ReadNumber(string prompt)
-        {
-            string rawValue = ReadText(prompt);
-            return int.Parse(rawValue, System.Globalization.CultureInfo.InvariantCulture);
-        }
-
-        /// <summary>
         /// Gets text input from the terminal. Directs the user with the given prompt.
         /// </summary>
         /// <param name="prompt">The given prompt.</param>

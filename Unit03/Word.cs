@@ -23,37 +23,37 @@ namespace Unit03
         {
             List<string> words = new List<string>
             {
-                "H A M B U R G E R",
-                "M U S T A R D",
-                "K E T C H U P",
                 "M A Y O",
-                "P I C K L E S",
-                "L E T T U C E",
+                "B U N S",
+                "C O R N",
+                "G R I L L",
+                "F R I E S",
+                "T O N G S",
                 "T O M A T O",
                 "O N I O N S",
-                "B U N S",
                 "S E S A M E",
-                "G R I L L",
-                "A V O C A D O",
                 "C H E E S E",
-                "T H O U S A N D I S L A N D",
-                "C O R N",
-                "B A R B E Q U E",
-                "F R I E S",
-                "C O C A C O L A",
-                "S P R I T E",
-                "H O T D O G",
                 "C O O L E R",
-                "L A W N C H A I R",
+                "H O T D O G",
+                "R E L I S H",
+                "S P R I T E",
+                "M U S T A R D",
+                "K E T C H U P",
+                "P I C K L E S",
+                "L E T T U C E",
+                "A V O C A D O",
+                "F R I S B E E",
+                "K O O L A I D",
+                "C O C A C O L A",
+                "B A R B E Q U E",
                 "F O O T B A L L",
                 "B A S E B A L L",
-                "F R I S B E E",
+                "H A M B U R G E R",
+                "L A W N C H A I R",
                 "S U N S C R E E N",
                 "W A T E R M E L O N",
-                "K O O L A I D",
-                "R E L I S H",
                 "S L I P N S L I D E",
-                "T O N G S"
+                "T H O U S A N D I S L A N D"
             };
             Random rnd = new Random();
             int randomWordIndex = rnd.Next(words.Count);
@@ -69,6 +69,7 @@ namespace Unit03
         /// <summary>
         /// Returns the current hint.
         /// </summary>
+        /// <returns>The current hint as a string.</returns>
         public string getHint()
         {
             string combinedHint = "";
@@ -116,6 +117,7 @@ namespace Unit03
         /// <summary>
         /// Check if the word matches the hint
         /// </summary>
+        /// <returns>Whether the word matches the hint.</returns>
         public bool won()
         {
             bool win = false;
