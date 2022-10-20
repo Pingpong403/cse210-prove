@@ -71,11 +71,7 @@ namespace Unit03
         /// <returns>The current hint as a string.</returns>
         public string getHint()
         {
-            string combinedHint = "";
-            foreach (string letter in _hint)
-            {
-                combinedHint += $"{letter} ";
-            }
+            string combinedHint = String.Join(" ", _hint);
             return combinedHint;
         }
 
@@ -98,7 +94,7 @@ namespace Unit03
         }
 
         /// <summary>
-        /// Puts all instances of the given letter in their correct spot 
+        /// Puts all instances of the given letter in their correct spot
         /// in the hint.
         /// </summary>
         /// <param name="letter">The letter to reveal.</param>
