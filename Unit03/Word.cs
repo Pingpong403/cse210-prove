@@ -57,7 +57,7 @@ namespace Unit03
             };
             Random rnd = new Random();
             int randomWordIndex = rnd.Next(words.Count);
-            _word = new List<string>(words[randomWordIndex].Split(" ")); 
+            _word = new List<string>(words[randomWordIndex].Split(" "));
             _wordLength = _word.Count;
             for (int i = 0; i < _wordLength; i++)
             {
