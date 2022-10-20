@@ -6,8 +6,8 @@ namespace Unit03
     /// <summary>
     /// <para>A service that handles terminal operations.</para>
     /// <para>
-    /// The responsibility of a TerminalService is to provide input and output operations for the 
-    /// terminal.
+    /// The responsibility of a TerminalService is to provide input and output
+    /// operations for the terminal.
     /// </para>
     /// </summary>
     public class TerminalService

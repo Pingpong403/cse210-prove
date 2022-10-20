@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace Unit03
 {
     /// <summary>
-    /// <para>Constructs a new instance of Jumper</para>
+    /// <para>A guy with a parachute.</para>
     /// <para>
-    /// The purpose of Jumper is to keep track of its current form and
+    /// The purpose of a Jumper is to keep track of its current form and
     /// change itself.
     /// </para>
     /// </summary>
@@ -34,7 +34,7 @@ namespace Unit03
         }
 
         /// <summary>
-        /// Returns the jumper.
+        /// Outputs the jumper.
         /// </summary>
         /// <returns>Current jumper as a string.</returns>
         public string getJumper()

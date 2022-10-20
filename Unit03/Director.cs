@@ -39,7 +39,7 @@ namespace Unit03
         }
 
         /// <summary>
-        /// Display jumper and hint, ask for letter.
+        /// Displays the jumper and hint then asks for a letter.
         /// </summary>
         private void GetInputs()
         {
@@ -55,8 +55,8 @@ namespace Unit03
         }
 
         /// <summary>
-        /// Check if letter was right, update hint and jumper accordingly.
-        /// If jumper dies, update accordingly.
+        /// Checks if the letter was right then updates hint and jumper accordingly.
+        /// If the jumper dies, updates accordingly.
         /// </summary>
         private void DoUpdates()
         {
@@ -75,8 +75,8 @@ namespace Unit03
         }
 
         /// <summary>
-        /// If jumper dies, display dead jumper and end game.
-        /// If player wins, congratulate them and end game.
+        /// If the jumper dies, displays dead jumper and ends the game.
+        /// If the player wins, congratulates them and ends the game.
         /// </summary>
         private void DoOutputs()
         {

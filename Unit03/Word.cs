@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Unit03
 {
     /// <summary>
-    /// <para>Creates a new instance of Word</para>
+    /// <para>A word and its hint.</para>
     /// <para>
     /// The responsibility of a Word is to know what word it holds, hold
     /// the correct hint, and update the hint correctly.
@@ -13,7 +13,7 @@ namespace Unit03
     public class Word
     {
         private List<string> _word;
-        private List<string> _hint;
+        private List<string> _hint = new List<string>();
         private int _wordLength;
 
         /// <summary>
@@ -57,9 +57,8 @@ namespace Unit03
             };
             Random rnd = new Random();
             int randomWordIndex = rnd.Next(words.Count);
-            _word = new List<string>(words[randomWordIndex].Split(" "));
+            _word = new List<string>(words[randomWordIndex].Split(" ")); 
             _wordLength = _word.Count;
-            _hint = new List<string>();
             for (int i = 0; i < _wordLength; i++)
             {
                 _hint.Add("_");
