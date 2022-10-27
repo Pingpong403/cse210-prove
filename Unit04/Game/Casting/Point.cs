@@ -49,10 +49,11 @@ namespace Unit04.Game.Casting
         /// Whether or not this Point is within the range of another one.
         /// </summary>
         /// <param name="other">The point to compare.</param>
-        /// <param name="range">The from other point.</param>
+        /// <param name="range">The range from the other point.</param>
         /// <returns>True if point is within range; false if otherwise.</returns>
         public bool EqualsRange(Point other, int range)
         {
+            // note: only checks Y range. X must be equal
             return this._y < other.GetY() + range && this._y > other.GetY() - range && this._x == other.GetX();
         }
 
