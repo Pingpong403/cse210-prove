@@ -21,7 +21,7 @@ namespace Unit04
         private static int FONT_SIZE = 15;
         private static int COLS = 60;
         private static int ROWS = 40;
-        private static string CAPTION = "Greed";
+        private static string CAPTION = "Carbon";
         private static List<string> MINERAL_SPRITES = new List<string>{"O", "*"};
         private static Color WHITE = new Color(255, 255, 255);
         private static int DEFAULT_MINERALS = 60;
