@@ -16,23 +16,20 @@ namespace Unit04.Game.Casting{
         public Mineral(){
             _value = 0;
         }
-
+        /// <summary>
+        /// Constructs a new instance of Mineral given its type.
+        /// </summary>
+        /// <param name="type">The type of mineral. Must be "rock" or "gem".</param>
         public Mineral(string type){
             if (type == "rock" || type == "gem"){
                 _value = (type == "rock") ? -1 : 1;
 
-                List<int> velocities = new List<int>{
-                    2,
-                    3,
-                    4,
-                    5
-                };
                 Random random = new Random();
-                int yVel = velocities[random.Next(velocities.Count)];
+                int yVel = random.Next(2, 6);
                 _velocity = new Point(0, yVel);
             }
             else{
-                _value = 0;
+                throw new ArgumentException("mineral must be of type\"rock\" or type \"gem\"");
             }
         }
 
