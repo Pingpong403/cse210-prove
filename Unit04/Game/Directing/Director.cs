@@ -16,16 +16,13 @@ namespace Unit04.Game.Directing
     {
         private KeyboardService _keyboardService = null;
         private VideoService _videoService = null;
-        private int _score;
-        private Point _lastInput;
-        private bool _gameOver;
-        private bool _winConditionMet;
+        private int _score = 6;
+        private Point _lastInput = new Point(0, 0);
+        private bool _gameOver = false;
+        private bool _winConditionMet = false;
 
         /// <summary>
-        /// <para>
         /// Constructs a new instance of Director using the given KeyboardService and VideoService.
-        /// </para>
-        /// <para>Sets score to 6.</para>
         /// </summary>
         /// <param name="keyboardService">The given KeyboardService.</param>
         /// <param name="videoService">The given VideoService.</param>
@@ -33,14 +30,11 @@ namespace Unit04.Game.Directing
         {
             this._keyboardService = keyboardService;
             this._videoService = videoService;
-            _score = 6;
-            _lastInput = new Point(0, 0);
-            _gameOver = false;
-            _winConditionMet = false;
         }
 
         /// <summary>
-        /// Starts the game by running the main game loop for the given cast.
+        /// Starts the game by running the main game loop for the given cast. Only
+        /// quits when the window is closed or the player wins or loses.
         /// </summary>
         /// <param name="cast">The given cast.</param>
         public void StartGame(Cast cast)
@@ -80,7 +74,10 @@ namespace Unit04.Game.Directing
         /// <para>
         /// Updates the robot's position and resolves any collisions with minerals.
         /// </para>
-        /// <para>Moves all artifacts according to their velocities.</para>
+        /// <para>
+        /// Checks for win or loss, updating score color to look more alarming
+        /// if player is about to lose.
+        /// </para>
         /// </summary>
         /// <param name="cast">The given cast.</param>
         private void DoUpdates(Cast cast)
@@ -127,7 +124,12 @@ namespace Unit04.Game.Directing
         }
 
         /// <summary>
+        /// <para>
         /// Draws the actors on the screen.
+        /// </para>
+        /// <para>
+        /// Updates the message banners if needed.
+        /// </para>
         /// </summary>
         /// <param name="cast">The given cast.</param>
         public void DoOutputs(Cast cast)
