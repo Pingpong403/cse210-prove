@@ -43,6 +43,7 @@ namespace Unit04.Game.Services
                 dx = 1;
             }
 
+            // Greed: robot cannot move vertically
             // if (Raylib.IsKeyDown(KeyboardKey.KEY_UP))
             // {
             //     dy = -1;
