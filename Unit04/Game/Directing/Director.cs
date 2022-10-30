@@ -20,16 +20,18 @@ namespace Unit04.Game.Directing
         private Point _lastInput = new Point(0, 0);
         private bool _gameOver = false;
         private bool _winConditionMet = false;
+        private bool _zenMode = false;
 
         /// <summary>
         /// Constructs a new instance of Director using the given KeyboardService and VideoService.
         /// </summary>
         /// <param name="keyboardService">The given KeyboardService.</param>
         /// <param name="videoService">The given VideoService.</param>
-        public Director(KeyboardService keyboardService, VideoService videoService)
+        public Director(KeyboardService keyboardService, VideoService videoService, bool zenMode)
         {
             this._keyboardService = keyboardService;
             this._videoService = videoService;
+            this._zenMode = zenMode;
         }
 
         /// <summary>
@@ -46,8 +48,10 @@ namespace Unit04.Game.Directing
                 DoUpdates(cast);
                 DoOutputs(cast);
             }
-            while (_videoService.IsWindowOpen()){
-                DoOutputs(cast);
+            if (!_zenMode){
+                while (_videoService.IsWindowOpen()){
+                    DoOutputs(cast);
+                }
             }
             _videoService.CloseWindow();
         }
@@ -58,16 +62,18 @@ namespace Unit04.Game.Directing
         /// <param name="cast">The given cast.</param>
         private void GetInputs(Cast cast)
         {
-            Actor robot = cast.GetFirstActor("robot");
-            Point velocity = _keyboardService.GetDirection();
-            // prevents too much movement at high fps
-            if (velocity.Equals(_lastInput) && !velocity.Equals(new Point(0, 0))){
-                robot.SetVelocity(new Point(0, 0));
+            if (!_zenMode){
+                Actor robot = cast.GetFirstActor("robot");
+                Point velocity = _keyboardService.GetDirection();
+                // prevents too much movement at high fps
+                if (velocity.Equals(_lastInput) && !velocity.Equals(new Point(0, 0))){
+                    robot.SetVelocity(new Point(0, 0));
+                }
+                else{
+                    robot.SetVelocity(velocity);
+                }
+                _lastInput = velocity;
             }
-            else{
-                robot.SetVelocity(velocity);
-            }
-            _lastInput = velocity;
         }
 
         /// <summary>
@@ -82,44 +88,52 @@ namespace Unit04.Game.Directing
         /// <param name="cast">The given cast.</param>
         private void DoUpdates(Cast cast)
         {
-            int gemsInPlay = 0;
-            Actor banner = cast.GetFirstActor("banner");
-            Actor robot = cast.GetFirstActor("robot");
             List<Actor> minerals = cast.GetActors("minerals");
-
             int maxX = _videoService.GetWidth();
             int maxY = _videoService.GetHeight();
-            robot.MoveNext(maxX, maxY);
+            if (!_zenMode){
+                int gemsInPlay = 0;
+                Actor banner = cast.GetFirstActor("banner");
+                Actor robot = cast.GetFirstActor("robot");
 
-            foreach (Actor actor in minerals)
-            {
-                Mineral mineral = (Mineral) actor;
-                if (mineral.GetValue() == 1){
-                    gemsInPlay += 1;
-                }
-                actor.MoveNext(maxX, maxY);
-                if (robot.GetPosition().EqualsRange(actor.GetPosition(), 7))
+                robot.MoveNext(maxX, maxY);
+
+                foreach (Actor actor in minerals)
                 {
-                    _score += mineral.GetValue();
-                    cast.RemoveActor("minerals", mineral);
+                    Mineral mineral = (Mineral) actor;
+                    if (mineral.GetValue() == 1){
+                        gemsInPlay += 1;
+                    }
+                    actor.MoveNext(maxX, maxY);
+                    if (robot.GetPosition().EqualsRange(actor.GetPosition(), 7))
+                    {
+                        _score += mineral.GetValue();
+                        cast.RemoveActor("minerals", mineral);
+                    }
+                }
+
+                // warn player if score gets too low
+                if (_score <= 3){
+                    banner.SetColor(new Color(255, 0, 0));
+                }
+                if (_score > 3){
+                    banner.SetColor(new Color(255, 255, 255));
+                }
+                banner.SetText($"Score: {_score}");
+
+                // check for win or loss
+                if (gemsInPlay == 0){
+                    _winConditionMet = true;
+                }
+                else if (_score <= 0){
+                    _gameOver = true;
                 }
             }
-
-            // warn player if score gets too low
-            if (_score <= 3){
-                banner.SetColor(new Color(255, 0, 0));
-            }
-            if (_score > 3){
-                banner.SetColor(new Color(255, 255, 255));
-            }
-            banner.SetText($"Score: {_score}");
-
-            // check for win or loss
-            if (gemsInPlay == 0){
-                _winConditionMet = true;
-            }
-            else if (_score <= 0){
-                _gameOver = true;
+            if (_zenMode){
+                foreach (Actor actor in minerals){
+                    Mineral mineral = (Mineral) actor;
+                    actor.MoveNext(maxX, maxY);
+                }
             }
         }
 

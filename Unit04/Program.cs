@@ -33,47 +33,79 @@ namespace Unit04
         /// <param name="args">The given arguments.</param>
         static void Main(string[] args)
         {
+            Console.Write("Zen mode? [y/n] ");
+            bool loadZenMode = Console.ReadLine() == "y";
             // create the cast
             Cast cast = new Cast();
 
-            // create the score banner
-            Actor banner = new Actor();
-            banner.SetText("");
-            banner.SetFontSize(FONT_SIZE * 2);
-            banner.SetColor(WHITE);
-            banner.SetPosition(new Point(CELL_SIZE, 0));
-            cast.AddActor("banner", banner);
+            if (!loadZenMode){
+                // create the score banner
+                Actor banner = new Actor();
+                banner.SetText("");
+                banner.SetFontSize(FONT_SIZE * 2);
+                banner.SetColor(WHITE);
+                banner.SetPosition(new Point(CELL_SIZE, 0));
+                cast.AddActor("banner", banner);
 
-            // create the robot
-            Actor robot = new Actor();
-            robot.SetText("#");
-            robot.SetFontSize(FONT_SIZE);
-            robot.SetColor(WHITE);
-            robot.SetPosition(new Point(MAX_X / 2, MAX_Y - 30));
-            cast.AddActor("robot", robot);
+                // create the robot
+                Actor robot = new Actor();
+                robot.SetText("#");
+                robot.SetFontSize(FONT_SIZE);
+                robot.SetColor(WHITE);
+                robot.SetPosition(new Point(MAX_X / 2, MAX_Y - 30));
+                cast.AddActor("robot", robot);
+            }
 
-            // create the minerals
-            Random random = new Random();
-            for (int i = 0; i < DEFAULT_MINERALS; i++)
-            {
-                int x = random.Next(1, COLS);
-                int y = random.Next(1, ROWS);
-                Point position = new Point(x, y);
-                position = position.Scale(CELL_SIZE);
+            if (!loadZenMode){
+                // create the minerals for normal gameplay
+                Random random = new Random();
+                for (int i = 0; i < DEFAULT_MINERALS; i++)
+                {
+                    int x = random.Next(1, COLS);
+                    int y = random.Next(1, ROWS);
+                    Point position = new Point(x, y);
+                    position = position.Scale(CELL_SIZE);
 
-                int r = random.Next(50, 256);
-                int g = random.Next(50, 256);
-                int b = random.Next(50, 256);
-                Color color = new Color(r, g, b);
+                    int r = random.Next(50, 256);
+                    int g = random.Next(50, 256);
+                    int b = random.Next(50, 256);
+                    Color color = new Color(r, g, b);
 
-                int choice = random.Next(30);
-                Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem");
-                string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];
-                mineral.SetText(text);
-                mineral.SetFontSize(FONT_SIZE);
-                mineral.SetColor(color);
-                mineral.SetPosition(position);
-                cast.AddActor("minerals", mineral);
+                    int choice = random.Next(30);
+                    Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem");
+                    string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];
+                    mineral.SetText(text);
+                    mineral.SetFontSize(FONT_SIZE);
+                    mineral.SetColor(color);
+                    mineral.SetPosition(position);
+                    cast.AddActor("minerals", mineral);
+                }
+            }
+
+            else{
+                // create the minerals for zen gameplay
+                Random random = new Random();
+                for (int i = 0; i < 80; i++)
+                {
+                    int x = random.Next(1, COLS);
+                    int y = random.Next(1, ROWS);
+                    Point position = new Point(x, y);
+                    position = position.Scale(CELL_SIZE);
+
+                    int r = random.Next(50, 256);
+                    int g = random.Next(50, 256);
+                    int b = random.Next(50, 256);
+                    Color color = new Color(r, g, b);
+
+                    int choice = random.Next(30);
+                    Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem");
+                    string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];
+                    mineral.SetText(text);
+                    mineral.SetFontSize(FONT_SIZE);
+                    mineral.SetColor(color);
+                    mineral.SetPosition(position);
+                    cast.AddActor("minerals", mineral);
+                }
             }
 
             // create the game over screen
@@ -81,7 +113,7 @@ namespace Unit04
             gameOverMessage.SetText("");
             gameOverMessage.SetFontSize(40);
             gameOverMessage.SetColor(WHITE);
-            gameOverMessage.SetPosition(new Point(MAX_X / 2 - 120, MAX_Y / 2 - 40));
+            gameOverMessage.SetPosition(new Point(MAX_X / 2 - 122, MAX_Y / 2 - 40));
             cast.AddActor("gameOverMessage", gameOverMessage);
 
             // create the win message
@@ -89,14 +121,14 @@ namespace Unit04
             winMessage.SetText("");
             winMessage.SetFontSize(40);
             winMessage.SetColor(WHITE);
-            winMessage.SetPosition(new Point(MAX_X / 2 - 80, MAX_Y / 2 - 40));
+            winMessage.SetPosition(new Point(MAX_X / 2 - 82, MAX_Y / 2 - 40));
             cast.AddActor("winMessage", winMessage);
 
             // start the game
             KeyboardService keyboardService = new KeyboardService(CELL_SIZE);
             VideoService videoService 
                 = new VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE, false);
-            Director director = new Director(keyboardService, videoService);
+            Director director = new Director(keyboardService, videoService, loadZenMode);
             director.StartGame(cast);
 
             // test comment
