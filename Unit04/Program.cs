@@ -72,7 +72,11 @@ namespace Unit04
                     Color color = new Color(r, g, b);
 
                     int choice = random.Next(30);
-                    Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem");
+                    bool specialMineral = false;
+                    if (choice == 0 || choice == 20){
+                        specialMineral = true;
+                    }
+                    Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem", specialMineral);
                     string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];
                     mineral.SetText(text);
                     mineral.SetFontSize(FONT_SIZE);
@@ -98,7 +102,11 @@ namespace Unit04
                     Color color = new Color(r, g, b);
 
                     int choice = random.Next(30);
-                    Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem");
+                    // bool specialMineral = false;
+                    // if (choice == 0 || choice == 20){
+                    //     specialMineral = true;
+                    // }
+                    Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem", false);
                     string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];
                     mineral.SetText(text);
                     mineral.SetFontSize(FONT_SIZE);

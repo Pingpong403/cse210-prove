@@ -48,7 +48,7 @@ namespace Unit04.Game.Directing
                 DoUpdates(cast);
                 DoOutputs(cast);
             }
-            if (!_zenMode){
+            if (!_zenMode && (_winConditionMet || _gameOver)){
                 while (_videoService.IsWindowOpen()){
                     DoOutputs(cast);
                 }
@@ -101,7 +101,11 @@ namespace Unit04.Game.Directing
                 foreach (Actor actor in minerals)
                 {
                     Mineral mineral = (Mineral) actor;
-                    if (mineral.GetValue() == 1){
+                    if (mineral.special){
+                        mineral.SetColor(mineral.GetTopColor());
+                        mineral.CycleColor();
+                    }
+                    if (mineral.GetValue() > 0){
                         gemsInPlay += 1;
                     }
                     actor.MoveNext(maxX, maxY);
