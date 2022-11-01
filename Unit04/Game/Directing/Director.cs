@@ -21,6 +21,7 @@ namespace Unit04.Game.Directing
         private bool _gameOver = false;
         private bool _winConditionMet = false;
         private bool _zenMode = false;
+        private bool _firstMove = false;
 
         /// <summary>
         /// Constructs a new instance of Director using the given KeyboardService and VideoService.
@@ -65,6 +66,9 @@ namespace Unit04.Game.Directing
             if (!_zenMode){
                 Actor robot = cast.GetFirstActor("robot");
                 Point velocity = _keyboardService.GetDirection();
+                if (!velocity.Equals(new Point(0, 0))){
+                    _firstMove = true;
+                }
                 // prevents too much movement at high fps
                 if (velocity.Equals(_lastInput) && !velocity.Equals(new Point(0, 0))){
                     robot.SetVelocity(new Point(0, 0));
@@ -109,11 +113,26 @@ namespace Unit04.Game.Directing
                         gemsInPlay += 1;
                     }
                     actor.MoveNext(maxX, maxY);
-                    if (robot.GetPosition().EqualsRange(actor.GetPosition(), 7))
+                    // collision detection, which doesn't happen if player is
+                    // invincible
+                    if (robot.GetPosition().EqualsRange(actor.GetPosition(), 7) && _firstMove)
                     {
                         _score += mineral.GetValue();
                         cast.RemoveActor("minerals", mineral);
                     }
+                }
+
+                // blink player if they are invincible
+                if (!_firstMove){
+                    if (robot.GetColor().IsSameColor(new Color(255, 255, 255))){
+                        robot.SetColor(new Color(0, 0, 0));
+                    }
+                    else{
+                        robot.SetColor(new Color(255, 255, 255));
+                    }
+                }
+                if (_firstMove && robot.GetColor().IsSameColor(new Color(0, 0, 0))){
+                    robot.SetColor(new Color(255, 255, 255));
                 }
 
                 // warn player if score gets too low

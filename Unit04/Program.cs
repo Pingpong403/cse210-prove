@@ -35,6 +35,12 @@ namespace Unit04
         {
             Console.Write("Zen mode? [y/n] ");
             bool loadZenMode = Console.ReadLine() == "y";
+            bool loadPsychedelicMode = false;
+            if (!loadZenMode){
+                Console.Write("Psychedelic mode? [y/n] ");
+                loadPsychedelicMode = Console.ReadLine() == "y";
+            }
+
             // create the cast
             Cast cast = new Cast();
 
@@ -73,8 +79,13 @@ namespace Unit04
 
                     int choice = random.Next(30);
                     bool specialMineral = false;
-                    if (choice == 0 || choice == 20){
+                    if (loadPsychedelicMode){
                         specialMineral = true;
+                    }
+                    else{
+                        if (choice == 0 || choice == 20){
+                            specialMineral = true;
+                        }
                     }
                     Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem", specialMineral);
                     string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];

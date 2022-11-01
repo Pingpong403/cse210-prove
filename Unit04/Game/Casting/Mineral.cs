@@ -52,7 +52,7 @@ namespace Unit04.Game.Casting{
             }
             else{
                 if (type == "rock" || type == "gem"){
-                    _value = (type == "rock") ? -5 : 5;
+                    _value = (type == "rock") ? -6 : 6;
 
                     Random random = new Random();
                     int yVel = random.Next(6, 10);

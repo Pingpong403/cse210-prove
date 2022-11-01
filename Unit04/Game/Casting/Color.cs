@@ -65,5 +65,26 @@ namespace Unit04.Game.Casting
             return _red;
         }
 
+        /// <summary>
+        /// Compares this color with another in a mathematical way.
+        /// </summary>
+        public bool IsSameColor(Color other, int tolerance = 0, bool includeAlpha = false){
+            bool sameColor = false;
+            if (this._red <= other.GetRed() + tolerance && this._red >= other.GetRed() - tolerance){
+                if (this._green <= other.GetRed() + tolerance && this._green >= other.GetRed() - tolerance){
+                    if (this._blue <= other.GetRed() + tolerance && this._blue >= other.GetRed() - tolerance){
+                        if (!includeAlpha){
+                            sameColor = true;
+                        }
+                        else{
+                            if (this._alpha <= other.GetRed() + tolerance && this._alpha >= other.GetRed() - tolerance){
+                                sameColor = true;
+                            }
+                        }
+                    }
+                }
+            }
+            return sameColor;
+        }
     }
 }
