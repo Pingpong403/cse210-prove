@@ -33,8 +33,18 @@ namespace Unit04
         /// <param name="args">The given arguments.</param>
         static void Main(string[] args)
         {
+            bool loadZenMode = false;
+            bool loadMatrix = false;
             Console.Write("Zen mode? [y/n] ");
-            bool loadZenMode = Console.ReadLine() == "y";
+            string zenMode = Console.ReadLine();
+            if (zenMode == "y"){
+                loadZenMode = true;
+            }
+            else if (zenMode == "m"){
+                loadZenMode = true;
+                loadMatrix = true;
+            }
+
             bool loadPsychedelicMode = false;
             if (!loadZenMode){
                 Console.Write("Psychedelic mode? [y/n] ");
@@ -100,7 +110,7 @@ namespace Unit04
             else{
                 // create the minerals for zen gameplay
                 Random random = new Random();
-                for (int i = 0; i < 80; i++)
+                for (int i = 0; i < (loadMatrix ? 1000 : 80); i++)
                 {
                     int x = random.Next(1, COLS);
                     int y = random.Next(1, ROWS);
@@ -110,13 +120,13 @@ namespace Unit04
                     int r = random.Next(50, 256);
                     int g = random.Next(50, 256);
                     int b = random.Next(50, 256);
+                    if (loadMatrix){
+                        r = 0;
+                        b = 0;
+                    }
                     Color color = new Color(r, g, b);
 
                     int choice = random.Next(30);
-                    // bool specialMineral = false;
-                    // if (choice == 0 || choice == 20){
-                    //     specialMineral = true;
-                    // }
                     Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem", false);
                     string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];
                     mineral.SetText(text);
