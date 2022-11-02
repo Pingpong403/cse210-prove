@@ -20,7 +20,7 @@ namespace Unit04.Game.Directing
         private Point _lastInput = new Point(0, 0);
         private bool _gameOver = false;
         private bool _winConditionMet = false;
-        private bool _zenMode = false;
+        private bool _loadRobot;
         private bool _firstMove = false;
 
         /// <summary>
@@ -28,11 +28,11 @@ namespace Unit04.Game.Directing
         /// </summary>
         /// <param name="keyboardService">The given KeyboardService.</param>
         /// <param name="videoService">The given VideoService.</param>
-        public Director(KeyboardService keyboardService, VideoService videoService, bool zenMode)
+        public Director(KeyboardService keyboardService, VideoService videoService, bool loadRobot)
         {
             this._keyboardService = keyboardService;
             this._videoService = videoService;
-            this._zenMode = zenMode;
+            this._loadRobot = loadRobot;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Unit04.Game.Directing
                 DoUpdates(cast);
                 DoOutputs(cast);
             }
-            if (!_zenMode && (_winConditionMet || _gameOver)){
+            if (_loadRobot && (_winConditionMet || _gameOver)){
                 while (_videoService.IsWindowOpen()){
                     DoOutputs(cast);
                 }
@@ -63,7 +63,7 @@ namespace Unit04.Game.Directing
         /// <param name="cast">The given cast.</param>
         private void GetInputs(Cast cast)
         {
-            if (!_zenMode){
+            if (_loadRobot){
                 Actor robot = cast.GetFirstActor("robot");
                 Point velocity = _keyboardService.GetDirection();
                 if (!velocity.Equals(new Point(0, 0))){
@@ -95,7 +95,7 @@ namespace Unit04.Game.Directing
             List<Actor> minerals = cast.GetActors("minerals");
             int maxX = _videoService.GetWidth();
             int maxY = _videoService.GetHeight();
-            if (!_zenMode){
+            if (_loadRobot){
                 int gemsInPlay = 0;
                 Actor banner = cast.GetFirstActor("banner");
                 Actor robot = cast.GetFirstActor("robot");
@@ -152,7 +152,7 @@ namespace Unit04.Game.Directing
                     _gameOver = true;
                 }
             }
-            if (_zenMode){
+            if (!_loadRobot){
                 foreach (Actor actor in minerals){
                     Mineral mineral = (Mineral) actor;
                     actor.MoveNext(maxX, maxY);

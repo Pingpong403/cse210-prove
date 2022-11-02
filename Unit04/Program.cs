@@ -22,7 +22,7 @@ namespace Unit04
         private static int COLS = 60;
         private static int ROWS = 40;
         private static string CAPTION = "Carbon";
-        private static List<string> MINERAL_SPRITES = new List<string>{"O", "*"};
+        private static List<string> MINERAL_SPRITES = new List<string>{"O", "*", "1"};
         private static Color WHITE = new Color(255, 255, 255);
         private static int DEFAULT_MINERALS = 60;
 
@@ -33,22 +33,31 @@ namespace Unit04
         /// <param name="args">The given arguments.</param>
         static void Main(string[] args)
         {
+            bool loadPlayer = false;
             bool loadZenMode = false;
             bool loadMatrix = false;
-            Console.Write("Zen mode? [y/n] ");
-            string zenMode = Console.ReadLine();
-            if (zenMode == "y"){
-                loadZenMode = true;
-            }
-            else if (zenMode == "m"){
-                loadZenMode = true;
-                loadMatrix = true;
-            }
-
             bool loadPsychedelicMode = false;
-            if (!loadZenMode){
-                Console.Write("Psychedelic mode? [y/n] ");
-                loadPsychedelicMode = Console.ReadLine() == "y";
+
+            Console.WriteLine("Choose a mode:");
+            Console.WriteLine("[N]ormal\n[Z]en\n[M]atrix\n[P]sychedelic");
+            string gameMode = Console.ReadLine();
+            switch (gameMode.ToUpper()){
+                case "N":
+                    loadPlayer = true;
+                    break;
+                case "Z":
+                    loadZenMode = true;
+                    break;
+                case "M":
+                    loadZenMode = true;
+                    loadMatrix = true;
+                    break;
+                case "P":
+                    loadPlayer = true;
+                    loadPsychedelicMode = true;
+                    break;
+                default:
+                    throw new Exception("invalid gamemode as input");
             }
 
             // create the cast
@@ -73,7 +82,7 @@ namespace Unit04
             }
 
             if (!loadZenMode){
-                // create the minerals for normal gameplay
+                // create the minerals for normal or psychedelic gameplay
                 Random random = new Random();
                 for (int i = 0; i < DEFAULT_MINERALS; i++)
                 {
@@ -108,7 +117,7 @@ namespace Unit04
             }
 
             else{
-                // create the minerals for zen gameplay
+                // create the minerals for zen or matrix gameplay
                 Random random = new Random();
                 for (int i = 0; i < (loadMatrix ? 1000 : 80); i++)
                 {
@@ -128,7 +137,7 @@ namespace Unit04
 
                     int choice = random.Next(30);
                     Mineral mineral = new Mineral((choice < 20) ? "rock" : "gem", false);
-                    string text = MINERAL_SPRITES[(choice < 20) ? 0 : 1];
+                    string text = MINERAL_SPRITES[(choice < 20) ? 0 : (!loadMatrix ? 1 : 2)];
                     mineral.SetText(text);
                     mineral.SetFontSize(FONT_SIZE);
                     mineral.SetColor(color);
@@ -157,7 +166,7 @@ namespace Unit04
             KeyboardService keyboardService = new KeyboardService(CELL_SIZE);
             VideoService videoService 
                 = new VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE, false);
-            Director director = new Director(keyboardService, videoService, loadZenMode);
+            Director director = new Director(keyboardService, videoService, loadPlayer);
             director.StartGame(cast);
 
             // test comment
