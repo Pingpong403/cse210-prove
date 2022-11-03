@@ -22,17 +22,28 @@ namespace Unit04.Game.Directing
         private bool _winConditionMet = false;
         private bool _loadRobot;
         private bool _firstMove = false;
+        private bool _invincibleFrames = true;
+        private bool _invincible = false;
+        private bool _isPowerupAlive = false;
+        private bool _isPowerupActive = false;
+        private int _activePowerupTimer = 0;
+        private int _powerupCooldown = 480;
+        private string _activePowerupTrait = "none";
+        private int _columns;
+        private int _cellSize;
 
         /// <summary>
         /// Constructs a new instance of Director using the given KeyboardService and VideoService.
         /// </summary>
         /// <param name="keyboardService">The given KeyboardService.</param>
         /// <param name="videoService">The given VideoService.</param>
-        public Director(KeyboardService keyboardService, VideoService videoService, bool loadRobot)
+        public Director(KeyboardService keyboardService, VideoService videoService, bool loadRobot, int columns, int cellSize)
         {
             this._keyboardService = keyboardService;
             this._videoService = videoService;
             this._loadRobot = loadRobot;
+            this._columns = columns;
+            this._cellSize = cellSize;
         }
 
         /// <summary>
@@ -66,11 +77,11 @@ namespace Unit04.Game.Directing
             if (_loadRobot){
                 Actor robot = cast.GetFirstActor("robot");
                 Point velocity = _keyboardService.GetDirection();
-                if (!velocity.Equals(new Point(0, 0))){
+                if (!_firstMove && !velocity.Equals(new Point(0, 0))){
                     _firstMove = true;
                 }
                 // prevents too much movement at high fps
-                if (velocity.Equals(_lastInput) && !velocity.Equals(new Point(0, 0))){
+                if ((velocity.Equals(_lastInput) && !velocity.Equals(new Point(0, 0))) && _activePowerupTrait != "fastMove"){
                     robot.SetVelocity(new Point(0, 0));
                 }
                 else{
@@ -92,6 +103,14 @@ namespace Unit04.Game.Directing
         /// <param name="cast">The given cast.</param>
         private void DoUpdates(Cast cast)
         {
+            // turn off invincibility when needed
+            if (_firstMove && _invincibleFrames){
+                _invincibleFrames = false;
+            }
+            if (_activePowerupTrait != "invincibility"){
+                _invincible = false;
+            }
+
             List<Actor> minerals = cast.GetActors("minerals");
             int maxX = _videoService.GetWidth();
             int maxY = _videoService.GetHeight();
@@ -115,23 +134,31 @@ namespace Unit04.Game.Directing
                     actor.MoveNext(maxX, maxY);
                     // collision detection, which doesn't happen if player is
                     // invincible
-                    if (robot.GetPosition().EqualsRange(actor.GetPosition(), 7) && _firstMove)
+                    if (robot.GetPosition().EqualsRange(actor.GetPosition(), 7) && !_invincibleFrames)
                     {
-                        _score += mineral.GetValue();
-                        cast.RemoveActor("minerals", mineral);
+                        if (!_invincible){
+                            _score += mineral.GetValue();
+                            cast.RemoveActor("minerals", mineral);
+                        }
+                        else{
+                            if (mineral.GetValue() > 0){
+                                _score += mineral.GetValue();
+                                cast.RemoveActor("minerals", mineral);
+                            }
+                        }
                     }
                 }
 
                 // blink player if they are invincible
-                if (!_firstMove){
+                if (_invincibleFrames || _invincible){
                     if (robot.GetColor().IsSameColor(new Color(255, 255, 255))){
-                        robot.SetColor(new Color(0, 0, 0));
+                        robot.SetColor(_invincibleFrames? new Color(0, 0, 0) : new Color(150, 150, 0));
                     }
                     else{
                         robot.SetColor(new Color(255, 255, 255));
                     }
                 }
-                if (_firstMove && robot.GetColor().IsSameColor(new Color(0, 0, 0))){
+                if (_firstMove && robot.GetColor().IsSameColor(new Color(0, 0, 0)) && !_invincible){
                     robot.SetColor(new Color(255, 255, 255));
                 }
 
@@ -150,6 +177,69 @@ namespace Unit04.Game.Directing
                 }
                 else if (_score <= 0){
                     _gameOver = true;
+                }
+
+                // POWERUPS SECTION
+
+                // do cooldown timer
+                if (!_isPowerupActive && !_isPowerupAlive){
+                    _powerupCooldown -= 1;
+                }
+
+                // move current powerup & change color if alive
+                if (_isPowerupAlive){
+                    Actor actor = cast.GetFirstActor("powerup");
+                    Powerup powerup = (Powerup) actor;
+                    if (powerup.GetPosition().GetY() > maxY){
+                        cast.RemoveActor("powerup", powerup);
+                        _powerupCooldown = 240;
+                        _isPowerupAlive = false;
+                    }
+                    else{
+                        powerup.Move();
+                        powerup.IncrementColor();
+                    }
+                }
+
+                // else spawn powerup if cooldown is done
+                else if (_powerupCooldown == 0){
+                    Powerup powerup = new Powerup();
+                    Random random = new Random();
+                    int randX = random.Next(1, _columns);
+                    Point spawnPosition = new Point(randX, 0);
+                    spawnPosition = spawnPosition.Scale(_cellSize);
+                    powerup.SetPosition(spawnPosition);
+                    cast.AddActor("powerup", powerup);
+                    _isPowerupAlive = true;
+                }
+
+                // check collision
+                if (_isPowerupAlive){
+                    Actor actor = cast.GetFirstActor("powerup");
+                    Powerup powerup = (Powerup) actor;
+                    if (robot.GetPosition().EqualsRange(powerup.GetPosition(), 7)){
+                        _activePowerupTrait = powerup.GetTrait();
+                        _activePowerupTimer = powerup.GetDuration();
+                        if (_activePowerupTrait == "invincibility"){
+                            _invincible = true;
+                        }
+                        cast.RemoveActor("powerup", powerup);
+                        _powerupCooldown = 240;
+                        _isPowerupActive = true;
+                        _isPowerupAlive = false;
+                    }
+                }
+                // do powerup timer
+                if (_isPowerupActive){
+                    if (_activePowerupTimer > 0){
+                        _activePowerupTimer -= 1;
+                    }
+                    else{
+                        _activePowerupTrait = "none";
+                        Random random = new Random();
+                        _isPowerupActive = false;
+                        robot.SetColor(new Color(255, 255, 255));
+                    }
                 }
             }
             if (!_loadRobot){

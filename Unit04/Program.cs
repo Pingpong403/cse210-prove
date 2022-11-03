@@ -166,7 +166,7 @@ namespace Unit04
             KeyboardService keyboardService = new KeyboardService(CELL_SIZE);
             VideoService videoService 
                 = new VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE, false);
-            Director director = new Director(keyboardService, videoService, loadPlayer);
+            Director director = new Director(keyboardService, videoService, loadPlayer, COLS, CELL_SIZE);
             director.StartGame(cast);
 
             // test comment

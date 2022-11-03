@@ -12,10 +12,10 @@ namespace Unit04.Game.Casting
     /// </summary>
     public class Actor
     {
-        private string _text = "";
+        protected string _text = "";
         private int _fontSize = 15;
-        private Color _color = new Color(255, 255, 255); // white
-        private Point _position = new Point(0, 0);
+        protected Color _color = new Color(255, 255, 255); // white
+        protected Point _position = new Point(0, 0);
         protected Point _velocity = new Point(0, 0);
 
         /// <summary>
